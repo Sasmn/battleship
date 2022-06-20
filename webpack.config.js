@@ -6,12 +6,16 @@ module.exports = {
     entry: './src/index.js',
     devtool: 'inline-source-map',
     devServer: {
-        static: './dist',
+        static: {
+            directory: "./dist",
+            watch: true
+        },
+        hot: false,
+        liveReload: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Battleship',
-            inject: 'body',
             template: './src/index.html',
         }),
     ],
@@ -23,8 +27,8 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                    test: /\.css$/i,
+                    use: ["style-loader", "css-loader", "postcss-loader"],
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
