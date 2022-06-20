@@ -14,6 +14,6 @@
     },
     "rules": {
         "no-console": "off",
-        "prettier/prettier": ["error", { "singleQuote": true, "tabWidth": 4 }]
+        "prettier/prettier": ["error"]
     }
 }

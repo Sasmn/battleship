@@ -1,20 +1,28 @@
 import './styles.css'
 
-const hello = document.createElement('h1');
-const wrapper = document.createElement('div');
+const hello = document.createElement('h1')
+const wrapper = document.createElement('div')
 
-hello.textContent = 'Hello World!';
+hello.textContent = 'Hello World!'
 hello.classList.add(
-  'bg-gradient-to-r', 'from-green-600', 'to-blue-500',
-  'text-transparent', 'text-9xl', 'bg-clip-text', 'font-extrabold'
-  );
+    'bg-gradient-to-r',
+    'from-green-600',
+    'to-blue-500',
+    'text-transparent',
+    'text-9xl',
+    'bg-clip-text',
+    'font-extrabold',
+)
 
 wrapper.classList.add(
-  'flex', 'w-full', 'h-screen',
-  'justify-center', 'items-center'
-  )
+    'flex',
+    'w-full',
+    'h-screen',
+    'justify-center',
+    'items-center',
+)
 
-wrapper.appendChild(hello);
-document.body.appendChild(wrapper);
-console.log("a");
-console.log("EE");
+wrapper.appendChild(hello)
+document.body.appendChild(wrapper)
+console.log('a')
+console.log('EE')
