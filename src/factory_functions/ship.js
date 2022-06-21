@@ -1,8 +1,19 @@
-const ship = (length, damage, sunk) => {
-    const wounds = new Array(length);
+const ship = (length) => {
+    let wounds = new Array(length);
     wounds.fill('safe');
 
-    const size = length;
+    /* xStart, xEnd, yStart, yEnd */
+    let position = new Array(4);
+
+    const endOfShip = (direction) => {
+        if (direction == 'x') {
+            position[1] = position[0];
+            position[3] = position[2] + length - 1;
+        } else if (direction == 'y') {
+            position[1] = position[0] + length - 1;
+            position[3] = position[2];
+        }
+    };
 
     const hit = (dmg) => {
         wounds[dmg] = 'hit';
@@ -15,7 +26,7 @@ const ship = (length, damage, sunk) => {
             return false;
         }
     };
-    return { wounds, size, hit, isSunk };
+    return { wounds, position, endOfShip, hit, isSunk };
 };
 
 export default ship;
