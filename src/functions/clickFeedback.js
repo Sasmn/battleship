@@ -5,7 +5,7 @@ import styleColumnNeighnours from './styling/styleColumnNeighbours';
 function clickFeedback(p, gb, g, i, j) {
     if (String(p.freeSpaces[i][j]).includes('ship')) {
         /* add appropiate styling */
-        g.classList.add('ship');
+        g.classList.add('ship-clicked');
 
         /* log the clicks coordinates */
         const click = logClick(gb, g);
@@ -22,7 +22,12 @@ function clickFeedback(p, gb, g, i, j) {
             }
         }
     } else {
-        g.classList.add('non-ship');
+        g.classList.add('non-clicked');
+    }
+
+    const won = p.gb.allShipsSunk();
+    if (won) {
+        alert("győztél more")
     }
 }
 

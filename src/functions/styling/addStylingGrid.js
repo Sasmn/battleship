@@ -6,11 +6,13 @@ function addStylingGrid(p, g, i, j) {
         line2.classList.add('line');
 
         g.append(line, line2);
+        g.classList.add('ship');
     } else {
         const point = document.createElement('div');
         point.classList.add('point');
 
         g.appendChild(point);
+        g.classList.add('non');
     }
 }
 

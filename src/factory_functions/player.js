@@ -107,10 +107,6 @@ const player = () => {
         }
     };
 
-    const attack = (x, y, enemyBoard) => {
-        enemyBoard.receiveAttack(x, y);
-    };
-
     return {
         gb,
         freeSpaces,

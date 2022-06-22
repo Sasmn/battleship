@@ -6,14 +6,14 @@ function styleColumnNeighnours(ship, gb) {
                 ship.position[2] - 1 + j <= 9 &&
                 ship.position[0] - 1 + i >= 0 &&
                 ship.position[2] - 1 + j >= 0 &&
-                gb.children[
+                !gb.children[
                     (ship.position[0] - 1 + i) * 10 + ship.position[2] - 1 + j
-                ].className != 'ship'
+                ].className.includes('ship')
             ) {
                 // freeSpaces[x - 1 + i][y - 1 + j] = 'x';
                 gb.children[
                     (ship.position[0] - 1 + i) * 10 + ship.position[2] - 1 + j
-                ].classList.add('non-ship');
+                ].classList.add('non-clicked');
             }
         }
     }

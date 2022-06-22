@@ -6,13 +6,13 @@ function styleRowNeighbours(ship, gb) {
                 ship.position[2] - 1 + i <= 9 &&
                 ship.position[0] - 1 + j >= 0 &&
                 ship.position[2] - 1 + i >= 0 &&
-                gb.children[
+                !gb.children[
                     (ship.position[0] - 1 + j) * 10 + ship.position[2] - 1 + i
-                ].className != 'ship'
+                ].className.includes('ship')
             ) {
                 gb.children[
                     (ship.position[0] - 1 + j) * 10 + ship.position[2] - 1 + i
-                ].classList.add('non-ship');
+                ].classList.add('non-clicked');
             }
         }
     }
