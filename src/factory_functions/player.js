@@ -112,6 +112,7 @@ const player = () => {
     };
 
     return {
+        gb,
         freeSpaces,
         ships,
         buildFleet,

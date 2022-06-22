@@ -21,8 +21,13 @@ const gameboard = () => {
             ) {
                 if (ships[i].position[0] == x) {
                     ships[i].hit(y - ships[i].position[2]);
+                    console.log(ships[i]);
+                    return ships[i];
                 } else {
                     ships[i].hit(x - ships[i].position[0]);
+                    console.log(ships[i].drctn);
+
+                    return ships[i];
                 }
             } else {
                 missedShots.push(x, y);
