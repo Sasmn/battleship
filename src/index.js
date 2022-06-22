@@ -5,10 +5,10 @@ import ship from './factory_functions/ship';
 const p1 = player();
 p1.buildFleet();
 
-const body = document.querySelector('body');
-body.classList.add('battleGround');
-console.log(p1.freeSpaces);
-console.log(p1.ships);
+const gameboards = document.querySelector('#gameboards');
+const enemyGb = document.createElement('div');
+enemyGb.classList.add('gameboard');
+gameboards.appendChild(enemyGb);
 
 for (let i = 0; i < 10; i++) {
     const div = document.createElement('div');
@@ -31,23 +31,14 @@ for (let i = 0; i < 10; i++) {
             line2.classList.add('line');
 
             x.append(line, line2);
-
-            x.classList.add('ship');
-        } else if (String(p1.freeSpaces[i][j]).includes('x')) {
-            // x.innerHTML = 'n';
-            const point = document.createElement('div');
-            point.classList.add('point-dark');
-
-            x.appendChild(point);
-            x.classList.add('neighbour');
         } else {
+            // x.innerHTML = 'n';
             const point = document.createElement('div');
             point.classList.add('point');
 
             x.appendChild(point);
-            x.classList.add('nothing');
         }
-        body.appendChild(x);
+        enemyGb.appendChild(x);
 
         /* game action */
         x.addEventListener('click', (e) => {
@@ -55,9 +46,9 @@ for (let i = 0; i < 10; i++) {
             if (String(p1.freeSpaces[i][j]).includes('ship')) {
                 /* color it red */
                 // x.style.backgroundColor = 'red';
-                x.classList.add('ship-clicked');
+                x.classList.add('ship');
                 /* log the clicks coordinates */
-                const pos = Array.from(body.children).indexOf(x);
+                const pos = Array.from(enemyGb.children).indexOf(x);
                 let xCoord;
                 let yCoord;
 
@@ -83,15 +74,21 @@ for (let i = 0; i < 10; i++) {
                                     ship.position[0] - 1 + j <= 9 &&
                                     ship.position[2] - 1 + i <= 9 &&
                                     ship.position[0] - 1 + j >= 0 &&
-                                    ship.position[2] - 1 + i >= 0
-                                ) {
-                                    // freeSpaces[x - 1 + j][y - 1 + i] = 'x';
-                                    body.children[
+                                    ship.position[2] - 1 + i >= 0 &&
+                                    enemyGb.children[
                                         (ship.position[0] - 1 + j) * 10 +
                                             ship.position[2] -
                                             1 +
                                             i
-                                    ].style.backgroundColor = 'gray';
+                                    ].className != 'ship'
+                                ) {
+                                    // freeSpaces[x - 1 + j][y - 1 + i] = 'x';
+                                    enemyGb.children[
+                                        (ship.position[0] - 1 + j) * 10 +
+                                            ship.position[2] -
+                                            1 +
+                                            i
+                                    ].classList.add('non-ship');
                                 }
                             }
                         }
@@ -102,21 +99,44 @@ for (let i = 0; i < 10; i++) {
                                     ship.position[0] - 1 + i <= 9 &&
                                     ship.position[2] - 1 + j <= 9 &&
                                     ship.position[0] - 1 + i >= 0 &&
-                                    ship.position[2] - 1 + j >= 0
-                                ) {
-                                    // freeSpaces[x - 1 + i][y - 1 + j] = 'x';
-                                    body.children[
+                                    ship.position[2] - 1 + j >= 0 &&
+                                    enemyGb.children[
                                         (ship.position[0] - 1 + i) * 10 +
                                             ship.position[2] -
                                             1 +
                                             j
-                                    ].style.backgroundColor = 'gray';
+                                    ].className != 'ship'
+                                ) {
+                                    // freeSpaces[x - 1 + i][y - 1 + j] = 'x';
+                                    enemyGb.children[
+                                        (ship.position[0] - 1 + i) * 10 +
+                                            ship.position[2] -
+                                            1 +
+                                            j
+                                    ].classList.add('non-ship');
                                 }
                             }
                         }
                     }
                 }
+            } else {
+                x.classList.add('non-ship');
+            }
+
+            const allShipsSunk = p1.gb.allShipsSunk();
+            if (allShipsSunk == true) {
+                alert('vége van tesó');
             }
         });
     }
+}
+
+function buildGameboard() {
+    const player = player();
+    player.buildFleet();
+
+    const gameboards = document.querySelector('#gameboards');
+    const gb = document.createElement('div');
+    gb.classList.add('gameboard');
+    gameboards.appendChild(gb);
 }
