@@ -13,6 +13,7 @@ const ship = (length) => {
             position[1] = position[0] + length - 1;
             position[3] = position[2];
         }
+        console.log(direction, position)
     };
 
     const hit = (dmg) => {

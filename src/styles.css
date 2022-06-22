@@ -1,3 +1,51 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+* {
+    box-sizing: border-box;
+}
+
+.battleGround {
+    display: flex;
+    flex-wrap: wrap;
+    width: 30vw;
+}
+
+.grid {
+    flex: 0 0 10%;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    border: 2px solid black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.point{
+    width: 20%;
+    height: 20%;
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
+.point-dark{
+    width: 20%;
+    height: 20%;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.line{
+    width: 145%;
+    height: 10%;
+    background-color: black;
+    transform: rotate(-45deg);
+
+    position: absolute;
+    top: 45%;
+}
+
+.grid > .line:first-of-type{
+    transform: rotate(45deg);
+}
+

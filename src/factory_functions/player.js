@@ -30,12 +30,10 @@ const player = () => {
         for (let i = 0; i < ships.length; i++) {
             const rnd = randPosition();
             testPosition(ships[i], rnd);
-            console.log(
-                ships[i].position,
-                rnd.direction,
-                freeSpaces[rnd.rndX],
-                ships[i].wounds.length,
-            );
+            // console.log(
+            //     ships[i].position,
+            //     rnd.direction
+            // );
         }
     };
 
@@ -78,15 +76,32 @@ const player = () => {
     };
 
     const deleteSpaces = (l, x, y, d) => {
+        /* place neighbouring grid-s */
+        if (d == 'x') {
+            for (let i = 0; i < l + 2; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (x - 1 + j <= 9 && y - 1 + i <= 9 && x - 1 + j >= 0 && y - 1 + i >= 0 ) {
+                        freeSpaces[x - 1 + j][y - 1 + i] = 'x';
+                    }
+                }
+            }
+        } else if (d == 'y') {
+            for (let i = 0; i < l + 2; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (x - 1 + i <= 9 && y - 1 + j <= 9 && x - 1 + i >= 0 && y - 1 + j >= 0) {
+                        freeSpaces[x - 1 + i][y - 1 + j] = 'x';
+                    }
+                }
+            }
+        }
+
+        /* place the ships */
         if (d == 'x') {
             for (let i = 0; i < l; i++) {
-                // delete freeSpaces[x][y+1];
-                // freeSpaces[x].splice(freespaces[x].indexOf(y + i), 1);
                 freeSpaces[x][y + i] = `ship ${l}`;
             }
         } else if (d == 'y') {
             for (let i = 0; i < l; i++) {
-                // freeSpaces[x + i].splice(freeSpaces[x + i].indexOf(y), 1);
                 freeSpaces[x + i][y] = `ship ${l}`;
             }
         }
