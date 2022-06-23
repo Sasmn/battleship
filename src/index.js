@@ -27,189 +27,123 @@ gbs.forEach((b) => {
 
                 setTimeout(function () {
                     gbs[0].children[numb].click();
-                }, 800);
+                }, 100);
             }
         });
     });
 });
 
 let previousClickHit = false;
-let rndX = Math.floor(Math.random() * 10);
-let rndY = Math.floor(Math.random() * 10);
-let numb = Math.floor(Math.random() * 100);
-let r;
-let freeNeighbours = 0;
+let clickedNeighbours = 0;
+let rndX;
+let rndY;
+let numb;
 function getRandomCoordtinates() {
-    freeNeighbours = 0;
-    checkNeighbours(freeNeighbours);
+    if (previousClickHit == true) {
+        clickedNeighbours = countClickedNeighbours(
+            clickedNeighbours,
+            rndX,
+            rndY,
+        );
+    }
 
-    console.log(freeNeighbours, numb, previousClickHit);
-    if (previousClickHit == true && freeNeighbours != 4) {
-        console.log('BIGJESZ');
-        getRandomNeighbour();
+    if (previousClickHit == true && clickedNeighbours != 4) {
+        console.log('benn');
+        const neighbour = getRandomNeighbour(rndX, rndY);
+        /*
+        let xn = neighbour.xn;
+        let yn = neighbour.yn;
+
+        numb = 10 * xn + yn;
+
+        clickedNeighbours = countClickedNeighbours(clickedNeighbours, xn, yn);
+        */
+        rndX = neighbour.xn;
+        rndY = neighbour.yn;
+
         numb = 10 * rndX + rndY;
 
-        if (!gbs[0].children[numb].className.includes('ship')) {
-            switch (r) {
-                case 0:
-                    rndX++;
-                    break;
-                case 1:
-                    rndX--;
-                    break;
-                case 2:
-                    rndY++;
-                    break;
-                case 3:
-                    rndY--;
-                    break;
-                default:
-                    break;
-            }
-        }
-        previousClickHit = true;
+        clickedNeighbours = countClickedNeighbours(clickedNeighbours, rndX, rndY);
+        // previousClickHit = true;
+        console.log(clickedNeighbours, previousClickHit, gbs[0].children[numb]);
     } else {
-        console.log('BIGNOO');
         rndX = Math.floor(Math.random() * 10);
         rndY = Math.floor(Math.random() * 10);
         numb = 10 * rndX + rndY;
-        previousClickHit = gbs[0].children[numb].className.includes('ship')
-            ? true
-            : false;
     }
 
+    previousClickHit = gbs[0].children[numb].className.includes('ship')
+        ? true
+        : false;
     if (gbs[0].children[numb].className.includes('clicked')) {
         numb = getRandomCoordtinates();
     }
 
+    console.log(clickedNeighbours);
+
     return numb;
 }
 
-function getRandomNeighbour() {
-    r = Math.floor(Math.random() * 4);
-    switch (r) {
+const getRandomNeighbour = (rndX, rndY) => {
+    let r = Math.floor(Math.random() * 4);
+
+    const neighbour = getNeighbourCoords(r, rndX, rndY);
+    let xn = neighbour.x;
+    let yn = neighbour.y;
+
+    if (
+        xn > 9 ||
+        xn < 0 ||
+        yn > 9 ||
+        yn < 0 ||
+        gbs[0].children[xn * 10 + yn].className.includes('ship')
+    ) {
+        getRandomNeighbour(rndX, rndY);
+    }
+
+    return { xn, yn };
+};
+
+/* check the neighbours: log the number of non-clicked neighbours (no neighbour is counted) */
+function countClickedNeighbours(clickedNeighbours, rndX, rndY) {
+    for (let i = 0; i < 4; i++) {
+        const neighbour = getNeighbourCoords(i, rndX, rndY);
+        let xn = neighbour.x;
+        let yn = neighbour.y;
+
+        if (
+            xn > 9 ||
+            xn < 0 ||
+            yn > 9 ||
+            yn < 0 ||
+            gbs[0].children[10 * xn + yn].className.includes('clicked')
+        ) {
+            clickedNeighbours++;
+        }
+    }
+    return clickedNeighbours;
+}
+
+const getNeighbourCoords = (index, xCoord, yCoord) => {
+    switch (index) {
         case 0:
-            rndX--;
+            xCoord++;
             break;
         case 1:
-            rndX++;
+            xCoord--;
             break;
         case 2:
-            rndY--;
+            yCoord++;
             break;
         case 3:
-            rndY++;
+            yCoord--;
             break;
         default:
             break;
     }
-    if (rndX > 9 || rndX < 0 || rndY > 9 || rndY < 0) {
-        switch (r) {
-            case 0:
-                rndX++;
-                break;
-            case 1:
-                rndX--;
-                break;
-            case 2:
-                rndY++;
-                break;
-            case 3:
-                rndY--;
-                break;
-            default:
-                break;
-        }
-        getRandomNeighbour();
-    }
-}
 
-function checkNeighbours() {
-    for (let i = 0; i < 4; i++) {
-        switch (i) {
-            case 0:
-                rndX++;
-                break;
-            case 1:
-                rndX--;
-                break;
-            case 2:
-                rndY++;
-                break;
-            case 3:
-                rndY--;
-                break;
-            default:
-                break;
-        }
-        if (rndX > 9 || rndX < 0 || rndY > 9 || rndY < 0) {
-            freeNeighbours++;
-        } else if (
-            gbs[0].children[10 * rndX + rndY].className.includes('clicked')
-        ) {
-            freeNeighbours++;
-        }
+    let x = xCoord;
+    let y = yCoord;
 
-        console.log(gbs[0].children[10 * rndX + rndY]);
-        switch (i) {
-            case 0:
-                rndX--;
-                break;
-            case 1:
-                rndX++;
-                break;
-            case 2:
-                rndY--;
-                break;
-            case 3:
-                rndY++;
-                break;
-            default:
-                break;
-        }
-    }
-
-    if (freeNeighbours == 4) {
-        for (let i = 0; i < 4; i++) {
-            switch (i) {
-                case 0:
-                    rndX++;
-                    break;
-                case 1:
-                    rndX--;
-                    break;
-                case 2:
-                    rndY++;
-                    break;
-                case 3:
-                    rndY--;
-                    break;
-                default:
-                    break;
-            }
-
-            if (rndX > 9 || rndX < 0 || rndY > 9 || rndY < 0) {
-                switch (i) {
-                    case 0:
-                        rndX--;
-                        break;
-                    case 1:
-                        rndX++;
-                        break;
-                    case 2:
-                        rndY--;
-                        break;
-                    case 3:
-                        rndY++;
-                        break;
-                    default:
-                        break;
-                }
-            } else if (
-                gbs[0].children[10 * rndX + rndY].className.includes('ship')
-            ) {
-                break;
-            }
-        }
-    }
-}
+    return { x, y };
+};

@@ -21,10 +21,14 @@ header {
 
 #gameboards {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     gap: 10%;
 }
 
 .gameboard {
+    flex: 0 1 70%;
     display: flex;
     flex-wrap: wrap;
     width: 80vw;
@@ -145,7 +149,7 @@ header {
     /*számítógép*/
 
     .gameboard {
-        width: 30vw;
+        flex-basis: 30%;
     }
 
     .grid:hover {
