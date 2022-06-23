@@ -13,21 +13,29 @@ gbs[0].classList.add('playerBoard');
 gbs.forEach((b) => {
     Array.from(b.children).forEach((g) => {
         g.addEventListener('click', (e) => {
-            if (e.target.className.includes('clicked')) {
-                e.preventDefault();
-            }
-            if (e.target.className.includes('ship')) {
-                console.log('talált');
-            } else {
-                gbs[0].classList.toggle('active-gb');
-                gbs[1].classList.toggle('active-gb');
-            }
+            gbs[0].classList.toggle('active-gb');
+            gbs[1].classList.toggle('active-gb');
+
+            // let numb;
+            let sunkShip;
+            let x;
+            let y;
             if (gbs[0].className.includes('active')) {
                 let numb = getRandomCoordtinates();
 
+                if (gbs[0].children[numb].className.includes('ship')) {
+                    sunkShip = numb;
+
+                    for (let i = 0; i < numb; i += 10) {
+                        x = i;
+                        y = numb - x;
+                    }
+                    console.log(x, y, numb);
+                }
+
                 setTimeout(function () {
                     gbs[0].children[numb].click();
-                }, 100);
+                }, 500);
             }
         });
     });
@@ -50,20 +58,24 @@ function getRandomCoordtinates() {
     if (previousClickHit == true && clickedNeighbours != 4) {
         console.log('benn');
         const neighbour = getRandomNeighbour(rndX, rndY);
-        /*
+
         let xn = neighbour.xn;
         let yn = neighbour.yn;
 
         numb = 10 * xn + yn;
 
         clickedNeighbours = countClickedNeighbours(clickedNeighbours, xn, yn);
-        */
+
         rndX = neighbour.xn;
         rndY = neighbour.yn;
 
         numb = 10 * rndX + rndY;
 
-        clickedNeighbours = countClickedNeighbours(clickedNeighbours, rndX, rndY);
+        clickedNeighbours = countClickedNeighbours(
+            clickedNeighbours,
+            rndX,
+            rndY,
+        );
         // previousClickHit = true;
         console.log(clickedNeighbours, previousClickHit, gbs[0].children[numb]);
     } else {
