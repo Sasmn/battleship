@@ -34,12 +34,124 @@ gbs.forEach((b) => {
 });
 
 let previousClickHit = false;
-let rndX;
-let rndY;
-let numb
+let rndX = Math.floor(Math.random() * 10);
+let rndY = Math.floor(Math.random() * 10);
+let numb = Math.floor(Math.random() * 100);
+let r;
+let freeNeighbours = 0;
 function getRandomCoordtinates() {
-    if (previousClickHit == true) {
-        switch (Math.floor(Math.random() * 4)) {
+    freeNeighbours = 0;
+    checkNeighbours(freeNeighbours);
+
+    console.log(freeNeighbours, numb, previousClickHit);
+    if (previousClickHit == true && freeNeighbours != 4) {
+        console.log('BIGJESZ');
+        getRandomNeighbour();
+        numb = 10 * rndX + rndY;
+
+        if (!gbs[0].children[numb].className.includes('ship')) {
+            switch (r) {
+                case 0:
+                    rndX++;
+                    break;
+                case 1:
+                    rndX--;
+                    break;
+                case 2:
+                    rndY++;
+                    break;
+                case 3:
+                    rndY--;
+                    break;
+                default:
+                    break;
+            }
+        }
+        previousClickHit = true;
+    } else {
+        console.log('BIGNOO');
+        rndX = Math.floor(Math.random() * 10);
+        rndY = Math.floor(Math.random() * 10);
+        numb = 10 * rndX + rndY;
+        previousClickHit = gbs[0].children[numb].className.includes('ship')
+            ? true
+            : false;
+    }
+
+    if (gbs[0].children[numb].className.includes('clicked')) {
+        numb = getRandomCoordtinates();
+    }
+
+    return numb;
+}
+
+function getRandomNeighbour() {
+    r = Math.floor(Math.random() * 4);
+    switch (r) {
+        case 0:
+            rndX--;
+            break;
+        case 1:
+            rndX++;
+            break;
+        case 2:
+            rndY--;
+            break;
+        case 3:
+            rndY++;
+            break;
+        default:
+            break;
+    }
+    if (rndX > 9 || rndX < 0 || rndY > 9 || rndY < 0) {
+        switch (r) {
+            case 0:
+                rndX++;
+                break;
+            case 1:
+                rndX--;
+                break;
+            case 2:
+                rndY++;
+                break;
+            case 3:
+                rndY--;
+                break;
+            default:
+                break;
+        }
+        getRandomNeighbour();
+    }
+}
+
+function checkNeighbours() {
+    for (let i = 0; i < 4; i++) {
+        switch (i) {
+            case 0:
+                rndX++;
+                break;
+            case 1:
+                rndX--;
+                break;
+            case 2:
+                rndY++;
+                break;
+            case 3:
+                rndY--;
+                break;
+            default:
+                break;
+        }
+        if (rndX > 9 || rndX < 0 || rndY > 9 || rndY < 0) {
+            freeNeighbours++;
+        } else if (
+            gbs[0].children[10 * rndX + rndY].className.includes('clicked')
+        ) {
+            freeNeighbours++;
+        }
+
+        console.log(gbs[0].children[10 * rndX + rndY]);
+        switch (i) {
             case 0:
                 rndX--;
                 break;
@@ -55,22 +167,49 @@ function getRandomCoordtinates() {
             default:
                 break;
         }
-        numb = 10 * rndX + rndY;
-    }
-    else{
-        rndX = Math.floor(Math.random() * 10);
-        rndY = Math.floor(Math.random() * 10);
-        numb = 10 * rndX + rndY;
     }
 
-    console.log(gbs[0].children[numb])
-    previousClickHit = gbs[0].children[numb].className.includes('ship')
-        ? true
-        : false;
+    if (freeNeighbours == 4) {
+        for (let i = 0; i < 4; i++) {
+            switch (i) {
+                case 0:
+                    rndX++;
+                    break;
+                case 1:
+                    rndX--;
+                    break;
+                case 2:
+                    rndY++;
+                    break;
+                case 3:
+                    rndY--;
+                    break;
+                default:
+                    break;
+            }
 
-    if (gbs[0].children[numb].className.includes('clicked')) {
-        numb = getRandomCoordtinates();
+            if (rndX > 9 || rndX < 0 || rndY > 9 || rndY < 0) {
+                switch (i) {
+                    case 0:
+                        rndX--;
+                        break;
+                    case 1:
+                        rndX++;
+                        break;
+                    case 2:
+                        rndY--;
+                        break;
+                    case 3:
+                        rndY++;
+                        break;
+                    default:
+                        break;
+                }
+            } else if (
+                gbs[0].children[10 * rndX + rndY].className.includes('ship')
+            ) {
+                break;
+            }
+        }
     }
-
-    return numb;
 }
