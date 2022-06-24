@@ -21,41 +21,37 @@ const gbs = document.querySelectorAll('.gameboard');
 gbs[1].classList.add('active-gb');
 gbs[0].classList.add('playerBoard');
 gbs.forEach((b) => {
-    let sunkShip = undefined;
     let x = 0;
     let y = 0;
     let sinking = false;
     let numb = 0;
     let clickedNeighbours;
     let shipDirection;
-    let shipLength = 0;
     let steps = 0;
+    let v;
+    let xp;
+    let yp;
     Array.from(b.children).forEach((g) => {
         g.addEventListener('click', (e) => {
             gbs[0].classList.toggle('active-gb');
             gbs[1].classList.toggle('active-gb');
 
             if (gbs[0].className.includes('active')) {
+                console.log(
+                    gbs[0].children[x * 10 + y],
+                    'clickedNeighbours: ' + clickedNeighbours,
+                    'sinking: ' + sinking,
+                    'steps: ' + steps,
+                );
                 if (sinking == true && clickedNeighbours != 4) {
-                    console.log(
-                        'clickedNeighbours: ' + clickedNeighbours,
-                        gbs[0].children[x * 10 + y],
-                    );
                     if (shipDirection == undefined) {
                         const neighbour = getRandomNeighbour(x, y);
 
                         let xn = neighbour.xn;
                         let yn = neighbour.yn;
-                        console.log(x + ' - ' + y + ' ||| ' + xn + ' - ' + yn);
 
                         setTimeout(function () {
                             gbs[0].children[xn * 10 + yn].click();
-
-                            clickedNeighbours = countClickedNeighbours(
-                                clickedNeighbours,
-                                x,
-                                y,
-                            );
 
                             if (
                                 gbs[0].children[
@@ -67,118 +63,205 @@ gbs.forEach((b) => {
                                 } else {
                                     shipDirection = 'x';
                                 }
-
+                                xp = x;
+                                yp = y;
                                 x = xn;
                                 y = yn;
-                                console.log(shipDirection, x, y);
+                            }
+
+                            clickedNeighbours = countClickedNeighbours(
+                                clickedNeighbours,
+                                x,
+                                y,
+                            );
+
+                            console.log('shipDirection: ' + shipDirection);
+                            if (shipDirection == 'y') {
+                                let v = x - xp;
+                                console.log(clickedNeighbours, v, x, y);
+                                if (clickedNeighbours == 4) {
+                                    v = -v;
+                                    while (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('clicked') &&
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        console.log('e');
+                                        xn = xn + v;
+                                    }
+                                    if (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        xn = xn - v;
+                                        clickedNeighbours = 0;
+                                        x = xn;
+                                    }
+                                }
+                                console.log(clickedNeighbours, v, x, y);
+                            }
+                            if (shipDirection == 'x') {
+                                let v = y - yp;
+                                console.log(clickedNeighbours, v, x, y);
+                                if (clickedNeighbours == 4) {
+                                    v = -v;
+                                    while (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('clicked') &&
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        console.log('e');
+                                        yn = yn + v;
+                                    }
+                                    if (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        yn = yn - v;
+                                        clickedNeighbours = 0;
+                                        y = yn;
+                                    }
+                                }
+                                console.log(clickedNeighbours, v, x, y);
                             }
                         }, 100);
                     } else {
                         if (shipDirection == 'x') {
                             let xn = x;
-
-                            let v;
                             if (steps == 0) {
                                 v = Math.floor(Math.random()) > 0.5 ? 1 : -1;
                             }
-                            let yn = y;
-
-                            steps++;
-                            yn = yn + v;
-
-                            if (yn > 9 || yn < 0) {
-                                yn = yn - v;
-                                v = -v;
-                            }
+                            let yn = y + v;
 
                             while (
                                 gbs[0].children[
                                     xn * 10 + yn
-                                ].className.includes('ship') &&
+                                ].className.includes('clicked') &&
                                 gbs[0].children[
                                     xn * 10 + yn
-                                ].className.includes('clicked')
+                                ].className.includes('ship')
                             ) {
                                 yn = yn + v;
                             }
-                            console.log(yn, xn, v);
 
-                            console.log(gbs[0].children[xn * 10 + yn], steps);
+                            steps++;
 
                             setTimeout(function () {
                                 gbs[0].children[xn * 10 + yn].click();
 
-                                console.log(gbs[0].children[xn * 10 + yn]);
-                                if (
-                                    !gbs[0].children[
-                                        xn * 10 + yn
-                                    ].className.includes('ship')
-                                ) {
-                                    v = -v;
-                                } else {
-                                    x = xn;
-                                    y = yn;
-                                }
+                                x = xn;
+                                y = yn;
 
-                                console.log();
                                 clickedNeighbours = countClickedNeighbours(
                                     clickedNeighbours,
                                     x,
                                     y,
                                 );
+
+                                console.log(clickedNeighbours, v, x, y);
+                                if (
+                                    clickedNeighbours == 4 ||
+                                    !gbs[0].children[
+                                        xn * 10 + yn
+                                    ].className.includes('ship')
+                                ) {
+                                    v = -v;
+                                    yn = yn + v;
+                                    while (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('clicked') &&
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        console.log('e');
+                                        yn = yn + v;
+                                    }
+
+                                    if (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        yn = yn - v;
+                                        clickedNeighbours = 0;
+                                        y = yn;
+                                    }
+                                }
+                                console.log(clickedNeighbours, v, x, y);
                             }, 100);
                         } else if (shipDirection == 'y') {
                             let yn = y;
-                            let v;
-
                             if (steps == 0) {
                                 v = Math.floor(Math.random()) > 0.5 ? 1 : -1;
                             }
-                            let xn = x;
-
-                            steps++;
-                            xn = xn + v * steps;
-
-                            if (xn > 9 || xn < 0) {
-                                xn = xn - v;
-                                v = -v;
-                                steps = 0;
-                            }
-
-                            console.log(
-                                gbs[0].children[xn * 10 + yn],
-                                'steps: ' + steps,
-                                'xn: ' + xn,
-                                'yn: ' + yn,
-                            );
+                            let xn = x + v;
                             while (
                                 gbs[0].children[
                                     xn * 10 + yn
-                                ].className.includes('clicked')
+                                ].className.includes('clicked') &&
+                                gbs[0].children[
+                                    xn * 10 + yn
+                                ].className.includes('ship')
                             ) {
                                 xn = xn + v;
                             }
 
-                            console.log(xn, yn);
+                            steps++;
+
                             setTimeout(function () {
                                 gbs[0].children[xn * 10 + yn].click();
 
-                                if (
-                                    !gbs[0].children[
-                                        xn * 10 + yn
-                                    ].className.includes('ship')
-                                ) {
-                                    x = xn;
-                                    y = yn;
-                                    v = -v;
-                                    steps = 1;
-                                }
+                                x = xn;
+                                y = yn;
 
                                 clickedNeighbours = countClickedNeighbours(
                                     clickedNeighbours,
                                     x,
                                     y,
                                 );
+
+                                console.log(clickedNeighbours, v, x, y);
+                                if (
+                                    clickedNeighbours == 4 ||
+                                    !gbs[0].children[
+                                        xn * 10 + yn
+                                    ].className.includes('ship')
+                                ) {
+                                    v = -v;
+                                    xn = xn + v;
+                                    while (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('clicked') &&
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        console.log('e');
+                                        xn = xn + v;
+                                    }
+
+                                    if (
+                                        gbs[0].children[
+                                            xn * 10 + yn
+                                        ].className.includes('ship')
+                                    ) {
+                                        xn = xn - v;
+                                        clickedNeighbours = 0;
+                                        x = xn;
+                                    }
+                                }
+                                console.log(clickedNeighbours, v, x, y);
                             }, 100);
                         }
                     }
@@ -191,22 +274,16 @@ gbs.forEach((b) => {
                         gbs[0].children[numb].click();
 
                         if (gbs[0].children[numb].className.includes('ship')) {
-                            sunkShip = numb;
                             sinking = true;
                         } else {
-                            (sunkShip = undefined), (sinking = false);
+                            sinking = false;
                         }
 
                         for (let i = 0; i <= numb; i += 10) {
                             x = i / 10;
                             y = numb - x * 10;
                         }
-                        // clickedNeighbours = countClickedNeighbours(
-                        //     clickedNeighbours,
-                        //     x,
-                        //     y,
-                        // );
-                        console.log('click: xCoord: ' + x + ' yCoord: ' + y);
+
                         clickedNeighbours = countClickedNeighbours(
                             clickedNeighbours,
                             x,
@@ -219,62 +296,7 @@ gbs.forEach((b) => {
     });
 });
 
-let previousClickHit = false;
-let clickedNeighbours = 0;
-let rndX;
-let rndY;
-let numb;
-function getRandomCoordtinates() {
-    // if (previousClickHit == true) {
-    //     clickedNeighbours = countClickedNeighbours(
-    //         clickedNeighbours,
-    //         rndX,
-    //         rndY,
-    //     );
-    // }
-
-    // if (previousClickHit == true && clickedNeighbours != 4) {
-    //     const neighbour = getRandomNeighbour(rndX, rndY);
-
-    //     /*
-    //     let xn = neighbour.xn;
-    //     let yn = neighbour.yn;
-
-    //     numb = 10 * xn + yn;
-
-    //     clickedNeighbours = countClickedNeighbours(clickedNeighbours, xn, yn);
-    //     */
-    //     rndX = neighbour.xn;
-    //     rndY = neighbour.yn;
-
-    //     numb = 10 * rndX + rndY;
-
-    //     clickedNeighbours = countClickedNeighbours(
-    //         clickedNeighbours,
-    //         rndX,
-    //         rndY,
-    //     );
-    //     // previousClickHit = true;
-    // } else {
-    //     rndX = Math.floor(Math.random() * 10);
-    //     rndY = Math.floor(Math.random() * 10);
-    //     numb = 10 * rndX + rndY;
-    // }
-
-    rndX = Math.floor(Math.random() * 10);
-    rndY = Math.floor(Math.random() * 10);
-    numb = 10 * rndX + rndY;
-
-    previousClickHit = gbs[0].children[numb].className.includes('ship')
-        ? true
-        : false;
-    if (gbs[0].children[numb].className.includes('clicked')) {
-        numb = getRandomCoordtinates();
-    }
-
-    return numb;
-}
-
+/* get a random neighbour: if it has been already clicked, or it is out of the grid, then select another one */
 const getRandomNeighbour = (rndX, rndY) => {
     let r = Math.floor(Math.random() * 4);
 
@@ -282,7 +304,6 @@ const getRandomNeighbour = (rndX, rndY) => {
     let xn = neighbour.x;
     let yn = neighbour.y;
 
-    // console.log(xn, yn);
     if (
         xn > 9 ||
         xn < 0 ||
@@ -299,6 +320,7 @@ const getRandomNeighbour = (rndX, rndY) => {
     return { xn, yn };
 };
 
+/* get the coordinates of the randomly selected neighbour */
 const getNeighbourCoords = (index, xCoord, yCoord) => {
     switch (index) {
         case 0:
@@ -323,6 +345,19 @@ const getNeighbourCoords = (index, xCoord, yCoord) => {
     return { x, y };
 };
 
+/* get a random coordinate of the grid: if it has been clicked previously, get another one */
+function getRandomCoordtinates() {
+    const rndX = Math.floor(Math.random() * 10);
+    const rndY = Math.floor(Math.random() * 10);
+    let numb = 10 * rndX + rndY;
+
+    if (gbs[0].children[numb].className.includes('clicked')) {
+        numb = getRandomCoordtinates();
+    }
+
+    return numb;
+}
+
 /* check the neighbours: log the number of non-clicked neighbours (no neighbour is counted) */
 function countClickedNeighbours(clickedNeighbours, rndX, rndY) {
     clickedNeighbours = 0;
@@ -331,6 +366,7 @@ function countClickedNeighbours(clickedNeighbours, rndX, rndY) {
         let xn = neighbour.x;
         let yn = neighbour.y;
 
+        /* if the neighbour is clicked or out of the grid, then add 1 to clickedNeighbour */
         if (
             xn > 9 ||
             xn < 0 ||
@@ -338,53 +374,12 @@ function countClickedNeighbours(clickedNeighbours, rndX, rndY) {
             yn < 0 ||
             gbs[0].children[10 * xn + yn].className.includes('clicked')
         ) {
-            // console.log('x-coord: ' + xn + ' y-coord :' + yn);
-            // console.log(gbs[0].children[10 * xn + yn]);
             clickedNeighbours++;
         }
     }
-    console.log('clickedNeighbours-function: ' + clickedNeighbours);
+    // console.log(
+    //     'clickedNeighbours-function: ' + clickedNeighbours,
+    //     gbs[0].children[rndX * 10 + rndY],
+    // );
     return clickedNeighbours;
 }
-
-const getRandomNeighbour2 = (numb) => {
-    let r = Math.floor(Math.random() * 4);
-
-    const neighbour = getNeighbourCoords2(r, numb);
-    let nn = neighbour.n;
-
-    if (
-        xn > 9 ||
-        xn < 0 ||
-        yn > 9 ||
-        yn < 0 ||
-        gbs[0].children[xn * 10 + yn].className.includes('ship')
-    ) {
-        getRandomNeighbour(rndX, rndY);
-    }
-
-    return { xn, yn };
-};
-
-const getNeighbourCoords2 = (index, numb) => {
-    switch (index) {
-        case 0:
-            numb++;
-            break;
-        case 1:
-            numb--;
-            break;
-        case 2:
-            numb = numb + 10;
-            break;
-        case 3:
-            numb = numb - 10;
-            break;
-        default:
-            break;
-    }
-
-    let n = numb;
-
-    return { n };
-};
