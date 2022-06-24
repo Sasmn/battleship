@@ -12,6 +12,7 @@ function clickFeedback(p, gb, g, i, j) {
         /* play the receiveAttack function */
         const ship = p.gb.receiveAttack(click.xCoord, click.yCoord);
 
+        /* 'click' diagonal */
         for (let i = 0; i < 4; i++) {
             let xn = setDiagonalNeighbourCoords(
                 i,

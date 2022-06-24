@@ -10,10 +10,11 @@ function buildGrid(gb, p) {
             addStylingGrid(p, g, i, j);
 
             g.addEventListener('click', () => {
-                clickFeedback(p, gb, g, i, j);
+                // clickFeedback(p, gb, g, i, j);
             });
         }
     }
+    
 }
 
 export default buildGrid;
