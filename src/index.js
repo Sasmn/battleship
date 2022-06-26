@@ -65,4 +65,5 @@ const newGame = document.querySelector('#newGame');
 newGame.addEventListener('click', () => {
     clearPLayground();
     generatePlayground();
+    // newGame.style.display = "none";
 });

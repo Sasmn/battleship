@@ -47,7 +47,14 @@ function clickFeedback(p, gb, g, i, j) {
 
     const won = p.gb.allShipsSunk();
     if (won) {
-        alert('győztél more');
+        const winner = document.querySelector('h1');
+        if (gb.className.includes('playerBoard')) {
+            winner.innerText = 'the cpu won';
+        } else {
+            winner.innerText = 'you won';
+        }
+        const gbs = document.querySelector('#gameboards');
+        gbs.innerHTML = '';
     }
 }
 

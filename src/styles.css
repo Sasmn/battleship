@@ -12,11 +12,24 @@ body {
     align-items: center;
     padding: 0;
     margin: 0;
+
+    background: linear-gradient(100deg, rgba(30,128,241,1) 0%, rgba(34,133,20,1) 19%, rgba(213,192,64,1) 35%, rgba(204,149,149,1) 53%, rgba(126,101,123,1) 70%, rgba(77,157,151,1) 86%, rgba(17,75,130,1) 100%);;
+    background-size: 400% 400%;
+    animation: gradient 35s ease infinite;
 }
 
 header {
     font-size: 8vmax;
     margin-bottom: 7vh;
+}
+
+button {
+    cursor: pointer;
+    font-size: 3vmax;
+    padding: 1vmin 2vmax;
+    border-radius: 1vmax;
+    box-shadow: 2px 2px black;
+    background-color: rgba(116, 160, 199, 0.651);
 }
 
 #gameboards {
@@ -27,7 +40,7 @@ header {
     column-gap: 10%;
 }
 
-h2{
+h2 {
     /* TODO: responsive */
     flex: 0 1 30%;
     text-align: center;
@@ -48,7 +61,6 @@ h2{
     opacity: 1;
 }
 
-
 /* grid elements */
 
 /* non-ship */
@@ -57,11 +69,11 @@ h2{
     overflow: hidden;
     aspect-ratio: 1/1;
     border: 2px solid black;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     position: relative;
     cursor: pointer;
 }
@@ -113,7 +125,7 @@ h2{
     pointer-events: none;
 }
 
-.ship-clicked > *{
+.ship-clicked > * {
     opacity: 1;
 }
 
@@ -154,7 +166,7 @@ h2{
 @media all and (min-width: 768px) {
     /*számítógép*/
 
-    h2{
+    h2 {
         flex: 0 1 30%;
     }
 
@@ -165,5 +177,17 @@ h2{
     .grid:hover {
         border: 3px solid green;
         background-color: lightgreen;
+    }
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
