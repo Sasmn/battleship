@@ -13,7 +13,16 @@ body {
     padding: 0;
     margin: 0;
 
-    background: linear-gradient(100deg, rgba(30,128,241,1) 0%, rgba(34,133,20,1) 19%, rgba(213,192,64,1) 35%, rgba(204,149,149,1) 53%, rgba(126,101,123,1) 70%, rgba(77,157,151,1) 86%, rgba(17,75,130,1) 100%);;
+    background: linear-gradient(
+        100deg,
+        rgba(30, 128, 241, 1) 0%,
+        rgba(34, 133, 20, 1) 19%,
+        rgba(213, 192, 64, 1) 35%,
+        rgba(204, 149, 149, 1) 53%,
+        rgba(126, 101, 123, 1) 70%,
+        rgba(77, 157, 151, 1) 86%,
+        rgba(17, 75, 130, 1) 100%
+    );
     background-size: 400% 400%;
     animation: gradient 35s ease infinite;
 }
@@ -29,7 +38,18 @@ button {
     padding: 1vmin 2vmax;
     border-radius: 1vmax;
     box-shadow: 2px 2px black;
-    background-color: rgba(116, 160, 199, 0.651);
+    background-color: rgba(116, 160, 199, 0.351);
+    backdrop-filter: blur(100px);
+    transition: 0.2s;
+}
+
+button:hover {
+    box-shadow: 4px 4px black;
+}
+
+button:active {
+    box-shadow: none;
+    transform: translateX(4px) translateY(4px);
 }
 
 #gameboards {
@@ -51,14 +71,21 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     width: 80vw;
-    border: 2px solid black;
-    opacity: 0.7;
+    border: 2px solid rgba(0, 0, 0, 0.397);
+    opacity: 0.5;
     pointer-events: none;
+    backdrop-filter: blur(10vmax);
+    background-color: rgba(240, 248, 255, 0.507);
+    transform: scale(0.85);
+
+    transition: 0.5s;
+    transition-delay: 0.3s;
 }
 
 .active-gb {
     pointer-events: auto;
     opacity: 1;
+    transform: scale(1);
 }
 
 /* grid elements */
@@ -68,7 +95,7 @@ h2 {
     flex: 0 0 10%;
     overflow: hidden;
     aspect-ratio: 1/1;
-    border: 2px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.397);
 
     display: flex;
     justify-content: center;
@@ -76,6 +103,7 @@ h2 {
 
     position: relative;
     cursor: pointer;
+    transition: 2s;
 }
 
 .non > * {
@@ -84,7 +112,7 @@ h2 {
 
 .non-clicked {
     display: flex;
-    background-color: rgb(255, 208, 208);
+    background-color: rgba(226, 196, 196, 0.685);
     pointer-events: none;
 }
 
@@ -106,7 +134,7 @@ h2 {
     flex: 0 0 10%;
     overflow: hidden;
     aspect-ratio: 1/1;
-    border: 2px solid black;
+    border: 2px solid rgba(0, 0, 0, 0.397);
 
     display: flex;
     justify-content: center;
@@ -114,6 +142,7 @@ h2 {
 
     position: relative;
     cursor: pointer;
+    transition: 2s;
 }
 
 .ship > * {
@@ -121,7 +150,7 @@ h2 {
 }
 
 .ship-clicked {
-    background-color: lightcoral;
+    background-color: rgba(240, 128, 128, 0.664);
     pointer-events: none;
 }
 
@@ -144,11 +173,18 @@ h2 {
     transform: rotate(45deg);
 }
 
+.non:hover,
+.ship:hover {
+    background-color: rgba(49, 49, 49, 0.664);
+    transform: scale(1.2);
+    transition: 0.1s;
+}
+
 /* players board */
 
 .playerBoard {
-    background-color: aqua;
-    /* pointer-events: none; */
+    background-color: rgba(30, 105, 105, 0.562);
+    pointer-events: none;
 }
 
 .playerBoard .ship > * {

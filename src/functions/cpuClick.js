@@ -91,28 +91,31 @@ function cpuClick(gbs, gameboard) {
     }
 
     /* initiate the DOM feedback of the 'click' */
-    clickFeedback(gameboard[0].p, gbs[0], gbs[0].children[10 * x + y], x, y);
+    setTimeout(function() {
+        clickFeedback(gameboard[0].p, gbs[0], gbs[0].children[10 * x + y], x, y);
 
-    /* count the clicked neighbours of the click */
-    numberOfClickedNeighbours = countClickedNeighbours(x, y, gbs);
+        /* count the clicked neighbours of the click */
+        numberOfClickedNeighbours = countClickedNeighbours(x, y, gbs);
+    
+        /* if the click hit, then call for this function 'click' again */
+        if (gbs[0].children[10 * x + y].className.includes('ship')) {
+            setTimeout(function () {
+                /* determine, weather the click sunk a ship, or not */
+                if (clickedShip.isSunk() == true) {
+                    sinking = false;
+                } else {
+                    sinking = true;
+                }
+    
+                cpuClick(gbs, gameboard);
+            }, 500);
+        } else {
+            /* if the click didn't hit, then the player's turn comes */
+            gbs[0].classList.toggle('active-gb');
+            gbs[1].classList.toggle('active-gb');
+        }
+    }, 700);
 
-    /* if the click hit, then call for this function 'click' again */
-    if (gbs[0].children[10 * x + y].className.includes('ship')) {
-        setTimeout(function () {
-            /* determine, weather the click sunk a ship, or not */
-            if (clickedShip.isSunk() == true) {
-                sinking = false;
-            } else {
-                sinking = true;
-            }
-
-            cpuClick(gbs, gameboard);
-        }, 500);
-    } else {
-        /* if the click didn't hit, then the player's turn comes */
-        gbs[0].classList.toggle('active-gb');
-        gbs[1].classList.toggle('active-gb');
-    }
 }
 
 export default cpuClick;
