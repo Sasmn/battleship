@@ -10,9 +10,13 @@
     src: url(font/Cinzel_Decorative/CinzelDecorative-Bold.ttf);
 }
 
-body {
-    width: 100vw;
+html {
     height: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -48,6 +52,7 @@ body {
     align-items: center;
     gap: 5%;
     backdrop-filter: blur(2vmax);
+    overflow: hidden;
 
     transition: ease-out 0.3s;
 }
@@ -67,16 +72,15 @@ body {
 }
 
 header {
-    flex: 0 0 min-content;
-    font-size: 6vmax;
-    margin-bottom: 7vmin;
-    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.8);
+    flex: 0 1 min-content;
+    font-size: 5vmax;
+    overflow: hidden;
 }
 
 button {
     cursor: pointer;
-    font-size: 4vmin;
-    padding: 1vmin 2vmin;
+    font-size: 3.5vmin;
+    padding: 0 1vmin;
     border-radius: 1vmax;
     box-shadow: 2px 2px black;
     background-color: rgba(116, 160, 199, 0.351);
@@ -94,25 +98,27 @@ button:active {
 }
 
 #gameboards {
-    flex: 1 0 60%;
+    flex: 0 1 80%;
     width: 95vw;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     gap: 2%;
 }
 
 #gameboards > div {
-    flex: 0 1 fit-content;
-    height: max-content;
-    overflow: hidden;
+    flex: 0 1 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 h2 {
-    /* TODO: responsive */
+    flex: 0 0 100%;
     text-align: center;
     font-size: 4vmin;
     margin: 0;
@@ -120,18 +126,19 @@ h2 {
 }
 
 .gameboard {
-    width: 30vh;
+    flex: 0 1 35vh;
+    aspect-ratio: 1/1;
+    max-height: 35vh;
     display: flex;
     flex-wrap: wrap;
     border: 2px solid rgba(0, 0, 0, 0.397);
     opacity: 0.5;
     pointer-events: none;
     backdrop-filter: blur(10vmax);
-    background-color: rgba(240, 248, 255, 0.507);
+    background-color: rgba(26, 117, 197, 0.664);
     transform: scale(0.85);
 
     transition: 0.3s;
-    /* transition-delay: 0.3s; */
 }
 
 .active-gb {
@@ -143,7 +150,7 @@ h2 {
 /* aside */
 
 aside {
-    flex: 0 1 min-content;
+    flex: 0 0 min-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,8 +168,9 @@ aside > * {
 /* non-ship */
 .non {
     flex: 0 0 10%;
+    height: 10%;
     overflow: hidden;
-    aspect-ratio: 1/1;
+    /* aspect-ratio: 1/1; */
     border: 2px solid rgba(0, 0, 0, 0.397);
 
     display: flex;
@@ -201,7 +209,8 @@ aside > * {
 .ship {
     flex: 0 0 10%;
     overflow: hidden;
-    aspect-ratio: 1/1;
+    /* aspect-ratio: 1/1; */
+    height: 10%;
     border: 2px solid rgba(0, 0, 0, 0.397);
 
     display: flex;
@@ -256,25 +265,21 @@ aside > * {
     opacity: 0;
 }
 
-@media all and (min-width: 600px) and (orientation: landscape) {
-    /*tablet*/
-}
-
-@media all and (min-width: 768px) {
-    /*számítógép*/
-
-    #gameboards {
-        width: 95vw;
-        gap: 2%;
+@media (orientation: landscape) {
+    #gameboards > div {
+        flex-basis: 49%;
     }
 
     .gameboard {
-        width: 30vw;
+        flex-basis: 50vh;
+        max-height: 50vh;
     }
+}
 
+@media (hover: hover) and (pointer: fine) {
     .non:hover,
     .ship:hover {
-        background-color: rgba(27, 252, 7, 0.664);
+        background-color: rgba(40, 95, 35, 0.664);
         transform: scale(1.2);
         transition: 0.1s;
     }
