@@ -99,22 +99,24 @@ function cpuClick(gbs, gameboard) {
     
         /* if the click hit, then call for this function 'click' again */
         if (gbs[0].children[10 * x + y].className.includes('ship')) {
+            /* determine, weather the click sunk a ship, or not */
+            if (clickedShip.isSunk() == true) {
+                sinking = false;
+            } else {
+                sinking = true;
+            }
+            cpuClick(gbs, gameboard);
             setTimeout(function () {
-                /* determine, weather the click sunk a ship, or not */
-                if (clickedShip.isSunk() == true) {
-                    sinking = false;
-                } else {
-                    sinking = true;
-                }
     
-                cpuClick(gbs, gameboard);
             }, 500);
         } else {
-            /* if the click didn't hit, then the player's turn comes */
-            gbs[0].classList.toggle('active-gb');
-            gbs[1].classList.toggle('active-gb');
+            setTimeout(function() {
+                /* if the click didn't hit, then the player's turn comes */
+                gbs[0].classList.toggle('active-gb');
+                gbs[1].classList.toggle('active-gb');
+            }, 500);
         }
-    }, 700);
+    }, 500);
 
 }
 

@@ -47,14 +47,20 @@ function clickFeedback(p, gb, g, i, j) {
 
     const won = p.gb.allShipsSunk();
     if (won) {
-        const winner = document.querySelector('h1');
+        const winner = document.querySelector('h3');
         if (gb.className.includes('playerBoard')) {
             winner.innerText = 'the cpu won';
         } else {
             winner.innerText = 'you won';
         }
+        winner.style.display = 'block';
+
         const gbs = document.querySelector('#gameboards');
         gbs.innerHTML = '';
+
+        const welcomePage = document.querySelector('#welcomePage');
+        welcomePage.style.top = '0';
+        welcomePage.style.backdropFilter = 'blur(2vmax)';
     }
 }
 

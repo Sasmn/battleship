@@ -22,8 +22,9 @@ function generatePlayground() {
         'click',
         () => {
             gbs[1].classList.add('active-gb');
-            // startButton.style.display = "none";
-            //TODO: hide generate and start button
+            startButton.style.display = 'none';
+            const generateButton = document.querySelector('#generate');
+            generateButton.style.display = 'none';
         },
         { once: true },
     );
@@ -65,5 +66,9 @@ const newGame = document.querySelector('#newGame');
 newGame.addEventListener('click', () => {
     clearPLayground();
     generatePlayground();
+
+    const welcomePage = document.querySelector('#welcomePage');
     // newGame.style.display = "none";
+    welcomePage.style.top = '100vh';
+    welcomePage.style.backdropFilter = 'blur(0px)';
 });

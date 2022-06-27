@@ -1,6 +1,13 @@
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    font-family: 'Cinzel';
+    color: rgba(20, 19, 20, 0.753);
+}
+
+@font-face {
+    font-family: Cinzel;
+    src: url(font/Cinzel_Decorative/CinzelDecorative-Bold.ttf);
 }
 
 body {
@@ -25,10 +32,41 @@ body {
     );
     background-size: 400% 400%;
     animation: gradient 35s ease infinite;
+
+    overflow: hidden;
+}
+
+#welcomePage{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    backdrop-filter: blur(2vmax);
+
+    transition: ease-out 0.3s;
+}
+
+#welcomePage h1{
+    font-size: 5vmax;
+}
+
+#welcomePage h3{
+    font-size: 4vmax;
+    background-color: rgba(240, 248, 255, 0.31);
+    box-shadow: 0px 0px 20px 30px rgba(240, 248, 255, 0.31);
+    padding: 0 1vmax;
+    border-radius: 20px;
+    display: none;
 }
 
 header {
-    font-size: 8vmax;
+    font-size: 6vmax;
     margin-bottom: 7vh;
 }
 
@@ -78,8 +116,8 @@ h2 {
     background-color: rgba(240, 248, 255, 0.507);
     transform: scale(0.85);
 
-    transition: 0.5s;
-    transition-delay: 0.3s;
+    transition: 0.3s;
+    /* transition-delay: 0.3s; */
 }
 
 .active-gb {
@@ -103,7 +141,7 @@ h2 {
 
     position: relative;
     cursor: pointer;
-    transition: 2s;
+    transition: 0.4s;
 }
 
 .non > * {
@@ -142,7 +180,7 @@ h2 {
 
     position: relative;
     cursor: pointer;
-    transition: 2s;
+    transition: 0.4s;
 }
 
 .ship > * {
