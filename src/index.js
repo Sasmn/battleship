@@ -29,13 +29,15 @@ function generatePlayground() {
         { once: true },
     );
 
-    const gameboards = document.querySelector('#gameboards');
-    const cpu = document.createElement('h2');
-    cpu.innerText = "cpu's board";
+    const playerBoard = document.querySelector('#gameboards > div:first-child');
     const player = document.createElement('h2');
     player.innerText = "player's board";
-    gameboards.insertBefore(player, gbs[0]);
-    gameboards.insertBefore(cpu, gbs[0]);
+
+    const cpuBoard = document.querySelector('#gameboards > div:nth-child(2)')
+    const cpu = document.createElement('h2');
+    cpu.innerText = "cpu's board";
+    playerBoard.insertBefore(player, gbs[0]);
+    cpuBoard.insertBefore(cpu, gbs[1]);
 
     /* somehow only giving the enemys playerboard click event results in a bug */
     gbs.forEach((b) => {

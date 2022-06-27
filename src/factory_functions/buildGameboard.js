@@ -7,7 +7,10 @@ const buildGameboard = () => {
     const gameboards = document.querySelector('#gameboards');
     const gb = document.createElement('div');
     gb.classList.add('gameboard');
-    gameboards.appendChild(gb);
+
+    const div = document.createElement('div');
+    div.appendChild(gb);
+    gameboards.appendChild(div);
 
     return { gb, p };
 };
