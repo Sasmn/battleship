@@ -81,5 +81,5 @@ newGame.addEventListener('click', () => {
 
     const gbs = document.querySelectorAll('.gameboard');
     gbs[0].classList.remove('active-gb');
-    gbs[1].classList.add('active-gb');
+    gbs[1].classList.remove('active-gb');
 });
