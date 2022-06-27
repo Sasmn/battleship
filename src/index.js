@@ -33,7 +33,7 @@ function generatePlayground() {
     const player = document.createElement('h2');
     player.innerText = "player's board";
 
-    const cpuBoard = document.querySelector('#gameboards > div:nth-child(2)')
+    const cpuBoard = document.querySelector('#gameboards > div:nth-child(2)');
     const cpu = document.createElement('h2');
     cpu.innerText = "cpu's board";
     playerBoard.insertBefore(player, gbs[0]);
@@ -73,4 +73,13 @@ newGame.addEventListener('click', () => {
     // newGame.style.display = "none";
     welcomePage.style.top = '100vh';
     welcomePage.style.backdropFilter = 'blur(0px)';
+
+    const startButton = document.querySelector('#start');
+    startButton.style.display = 'block';
+    const generateButton = document.querySelector('#generate');
+    generateButton.style.display = 'block';
+
+    const gbs = document.querySelectorAll('.gameboard');
+    gbs[0].classList.remove('active-gb');
+    gbs[1].classList.add('active-gb');
 });
